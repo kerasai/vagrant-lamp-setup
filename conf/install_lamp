@@ -21,6 +21,12 @@ apt-get install -y php5-curl php5-gd php5-mysql
 # Fix PHP-FPM on Ubuntu 14.04.
 echo "reload signal USR2" > /etc/init/php5-fpm.override
 
+# Add a file to put custom tweaks into.
+cp $BASEDIR/conf/php/tweaks.ini /etc/php5/mods-available
+php5enmod tweaks
+service php5-fpm restart
+
+# Add vhost writing utiliy
 cp $BASEDIR/conf/bin/write_vhost /usr/bin
 
 echo 'alias www="cd /var/www"' >> ~/.bashrc
