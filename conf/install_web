@@ -1,7 +1,7 @@
 #!/bin/bash
 
 write_vhost web 0 8081 /var/www/web $BASEDIR/conf/apache2/vhost.tpl
-a2ensite dashboard
+a2ensite web
 service apache2 reload
 
 echo 'alias web="cd /var/www/web"' >> ~/.bashrc
