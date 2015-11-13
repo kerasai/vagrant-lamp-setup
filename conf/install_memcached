@@ -1,0 +1,11 @@
+#!/bin/bash
+
+apt-get install -y memcached
+cp $BASEDIR/conf/memcached/memcached.conf /etc
+service memcached restart
+
+apt-get install -y php5-dev
+printf "\n" | pecl install memcache
+cp $BASEDIR/conf/php/memcache.ini /etc/php5/mods-available
+php5enmod memcache
+service php5-fpm restart

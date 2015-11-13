@@ -1,0 +1,34 @@
+### BEGIN INIT INFO
+# Provides: Selenium Server
+# Required-Start: $local_fs $remote_fs
+# Required-Stop:
+# X-Start-Before:
+# Default-Start: 2 3 4 5
+# Default-Stop: 0 1 6
+# Short-Description: Selenium Server standalone.
+### END INIT INFO
+
+SEL=/usr/lib/selenium/start.sh
+PIDFILE=/var/run/selenium.pid
+
+case "$1" in
+  start)
+    echo -n "Starting selenium server"
+    /usr/lib/selenium/start.sh
+    echo "."
+    ;;
+  stop)
+    echo -n "Stopping selenium server"
+    /usr/lib/selenium/stop.sh
+    echo "."
+    ;;
+  restart)
+    $0 stop
+    $0 start
+    ;;
+  *)
+        echo "Usage: /etc/init.d/selenium {start|stop|restart}"
+        exit 1
+esac
+
+exit 0

@@ -1,0 +1,15 @@
+#!/bin/bash
+
+SITE=$1
+URL=$2
+PORT=$3
+DOCROOT=$4
+TEMPLATE=$5
+
+if [ $URL = 0 ]; then
+  URL=""
+else
+  URL="ServerName ${URL}"
+fi
+
+sed "s|{{SITE}}|${SITE}|;s|{{URL}}|${URL}|;s|{{PORT}}|${PORT}|;s|{{DOCROOT}}|${DOCROOT}|;" ${TEMPLATE} > /etc/apache2/sites-available/${SITE}.conf

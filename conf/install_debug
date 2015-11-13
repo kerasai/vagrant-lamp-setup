@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Debugging tools
+apt-get install -y php5-xdebug php5-xhprof graphviz libgv-php5
+cp $BASEDIR/conf/php/xhprof.ini /etc/php5/mods-available
+cp $BASEDIR/conf/php/debug.ini /etc/php5/mods-available
+php5enmod xhprof
+php5enmod debug
+service php5-fpm restart
+if [ ! -d /var/www/html/xhprof ] ; then
+cd /var/www/html
+git clone https://github.com/phacility/xhprof.git
+fi

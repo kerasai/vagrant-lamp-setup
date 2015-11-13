@@ -1,0 +1,11 @@
+#!/bin/bash
+
+cp $BASEDIR/conf/apache2/ports.conf /etc/apache2/
+cp $BASEDIR/conf/apache2/php5-fpm.conf /etc/apache2/conf-available/
+
+a2dissite 000-default
+a2dismod php5
+a2enmod actions fastcgi alias rewrite
+a2enconf php5-fpm
+
+service apache2 reload

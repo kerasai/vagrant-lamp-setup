@@ -1,0 +1,27 @@
+#!/bin/bash
+
+cp $BASEDIR/conf/bin/increase_swap /usr/bin
+increase_swap
+
+echo "deb http://archive.ubuntu.com/ubuntu trusty multiverse" >> /etc/apt/sources.list
+apt-get update
+debconf-set-selections <<< 'mysql-server mysql-server/root_password password root'
+debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password root'
+
+# Basics
+apt-get install -y git curl gzip unzip
+
+# LAMP
+apt-get install -y apache2 libapache2-mod-fastcgi php5-fpm mysql-server-5.6 php5-cli
+usermod -a -G dialout www-data
+
+# PHP Extras
+apt-get install -y php5-curl php5-gd php5-mysql
+
+# Fix PHP-FPM on Ubuntu 14.04.
+echo "reload signal USR2" > /etc/init/php5-fpm.override
+
+cp $BASEDIR/conf/bin/write_vhost /usr/bin
+
+echo 'alias www="cd /var/www"' >> ~/.bashrc
+source ~/.bashrc

@@ -1,0 +1,31 @@
+#!/bin/bash
+
+if [ ! -d /var/www/dashboard ] ; then
+mkdir /var/www/dashboard
+fi
+
+# PHP Info.
+cp $BASEDIR/conf/dashboard/phpinfo.php /var/www/html
+
+# PMA
+if [ ! -d /var/www/dashboard/phpmyadmin ] ; then
+cd /var/www/dashboard
+curl -O https://files.phpmyadmin.net/phpMyAdmin/4.4.14.1/phpMyAdmin-4.4.14.1-english.tar.gz
+tar zxvf phpMyAdmin-4.4.14.1-english.tar.gz
+mv phpMyAdmin-4.4.14.1-english phpmyadmin
+cp $BASEDIR/conf/dashboard/config.inc.php /var/www/dashboard/phpmyadmin
+rm phpMyAdmin-4.4.14.1-english.tar.gz
+fi
+
+# Opcache GUI
+if [ ! -d /var/www/dashboard/opcache-gui ] ; then
+cd /var/www/dashboard
+git clone https://github.com/amnuts/opcache-gui.git
+fi
+
+write_vhost dashboard 0 8081 /var/www/dashboard $BASEDIR/conf/apache2/vhost.tpl
+a2ensite dashboard
+service apache2 reload
+
+echo 'alias dashboard="cd /var/www/dashboard"' >> ~/.bashrc
+source ~/.bashrc
