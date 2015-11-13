@@ -5,7 +5,7 @@ mkdir /var/www/dashboard
 fi
 
 # PHP Info.
-cp $BASEDIR/conf/dashboard/phpinfo.php /var/www/html
+cp $BASEDIR/conf/dashboard/phpinfo.php /var/www/dashboard
 
 # PMA
 if [ ! -d /var/www/dashboard/phpmyadmin ] ; then
