@@ -1,6 +1,6 @@
 #!/bin/bash
 
-write_vhost web 0 8081 /var/www/web $BASEDIR/conf/apache2/vhost.tpl
+write_vhost web 0 80 /var/www/web $BASEDIR/conf/apache2/vhost.tpl
 a2ensite web
 service apache2 reload
 
