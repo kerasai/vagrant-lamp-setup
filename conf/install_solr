@@ -11,12 +11,12 @@ rm solr-5.3.1.tgz
 # Install config.
 cp -R $BASEDIR/conf/solr/drupal /usr/lib/solr/solr-5.3.1/server/solr
 
-# Create core.
-cd /usr/lib/solr/solr-5.3.1
-bin/solr create -c drupal -d server/solr/drupal
-
 # Install service.
 cp $BASEDIR/conf/solr/solr.txt /etc/init.d/solr
 update-rc.d solr defaults
 chmod 755 /etc/init.d/solr
 service solr start
+
+# Create core.
+cd /usr/lib/solr/solr-5.3.1
+bin/solr create -c drupal -d server/solr/drupal
