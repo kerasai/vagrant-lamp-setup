@@ -12,7 +12,8 @@ rm solr-5.3.1.tgz
 cp -R $BASEDIR/conf/solr/drupal /usr/lib/solr/solr-5.3.1/server/solr
 
 # Create core.
-/usr/lib/solr/solr-5.3.1/bin/solr create -c drupal -d server/solr/drupal
+cd /usr/lib/solr/solr-5.3.1
+bin/solr create -c drupal -d server/solr/drupal
 
 # Install service.
 cp $BASEDIR/conf/solr/solr.txt /etc/init.d/solr
