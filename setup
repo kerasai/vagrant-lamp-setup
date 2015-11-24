@@ -11,6 +11,7 @@ conf/install_drush
 conf/install_debug
 conf/install_testing
 
+#conf/install_pecl
 #conf/install_memcached
 #conf/install_mongodb
 #conf/install_solr
