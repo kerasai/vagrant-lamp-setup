@@ -7,7 +7,7 @@ cp $BASEDIR/conf/php/debug.ini /etc/php5/mods-available
 php5enmod xhprof
 php5enmod debug
 service php5-fpm restart
-if [ ! -d /var/www/html/xhprof ] ; then
-cd /var/www/html
+if [ ! -d /var/www/dashboard/xhprof ] ; then
+cd /var/www/dashboard
 git clone https://github.com/phacility/xhprof.git
 fi
