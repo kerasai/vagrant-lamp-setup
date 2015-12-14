@@ -69,4 +69,8 @@ class LampTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals(ini_get('variables_order'), 'EGPCS', 'php5 variable order set');
   }
 
+  public function testAlias() {
+    // alias www="cd /var/www
+    $this->assertContains('alias www="cd /var/www"', file_get_contents('/root/.bashrc'));
+  }
 }
