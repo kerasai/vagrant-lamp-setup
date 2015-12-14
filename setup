@@ -2,14 +2,13 @@
 
 export BASEDIR=${PWD}
 
-conf/install_lamp
-conf/apache2/configure_apache2
-conf/install_web
-conf/install_dashboard
-conf/install_composer
-conf/install_drush
-conf/install_debug
-conf/install_testing
+#conf/install_lamp
+#conf/install_web
+#conf/install_dashboard
+#conf/install_composer
+#conf/install_drush
+#conf/install_debug
+#conf/install_testing
 
 #conf/install_pecl
 #conf/install_memcached
