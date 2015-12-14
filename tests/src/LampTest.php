@@ -31,6 +31,16 @@ class LampTest extends PHPUnit_Framework_TestCase {
     $output = `apache2 -v`;
     $this->assertNotNull($output, "apache2 not installed.");
     $this->assertContains("Server version: {$this->apacheVersion} (Ubuntu)", $output, "apache2 not at version {$this->apacheVersion}");
+
+    $this->assertFalse(file_exists('/etc/apache2/sites-enabled/000-default.conf'), 'default site enabled');
+    $this->assertFalse(file_exists('/etc/apache2/mods-enabled/php5.conf'), 'php5 conf enabled');
+    $this->assertTrue(file_exists('/etc/apache2/mods-enabled/actions.conf'), 'actions mod enabled');
+    $this->assertTrue(file_exists('/etc/apache2/mods-enabled/alias.conf'), 'alias mod enabled');
+    $this->assertTrue(file_exists('/etc/apache2/mods-enabled/fastcgi.conf'), 'fastcgi mod enabled');
+    $this->assertTrue(file_exists('/etc/apache2/mods-enabled/rewrite.load'), 'rewrite mod enabled');
+    $this->assertTrue(file_exists('/etc/apache2/conf-enabled/php5-fpm.conf'), 'php5-fpm conf enabled');
+
+    $this->assertContains('FastCgiExternalServer /usr/lib/cgi-bin/php5-fcgi -socket /var/run/php5-fpm.sock -idle-timeout 250 -pass-header Authorization', file_get_contents('/etc/apache2/conf-enabled/php5-fpm.conf'), 'php5-fpm configured');
   }
 
   public function testMySql() {
@@ -52,6 +62,11 @@ class LampTest extends PHPUnit_Framework_TestCase {
 
     $this->assertTrue(file_exists('/etc/init/php5-fpm.override'), 'PHP5-FPM override file exists');
     $this->assertEquals("reload signal USR2\n", file_get_contents('/etc/init/php5-fpm.override'), 'PHP5-FPM override contents acceptable');
+
+    $this->assertTrue(file_exists('/etc/php5/fpm/conf.d/00-core.ini'), 'php5 core.ini enabled');
+    $this->assertTrue(file_exists('/etc/php5/fpm/conf.d/99-tweaks.ini'), 'php5 tweaks.ini enabled');
+
+    $this->assertEquals(ini_get('variables_order'), 'EGPCS', 'php5 variable order set');
   }
 
 }
