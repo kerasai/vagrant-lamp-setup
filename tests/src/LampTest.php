@@ -70,7 +70,6 @@ class LampTest extends PHPUnit_Framework_TestCase {
   }
 
   public function testAlias() {
-    // alias www="cd /var/www
     $this->assertContains('alias www="cd /var/www"', file_get_contents('/root/.bashrc'));
   }
 }
