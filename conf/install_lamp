@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cp $BASEDIR/conf/bin/increase_swap /usr/bin
+cp $BASEDIR/conf/bin/* /usr/bin
 increase_swap
 
 echo "deb http://archive.ubuntu.com/ubuntu trusty multiverse" >> /etc/apt/sources.list
@@ -13,7 +13,6 @@ apt-get install -y git curl gzip unzip
 
 # LAMP
 apt-get install -y apache2 libapache2-mod-fastcgi php5-fpm mysql-server-5.6 php5-cli
-usermod -a -G dialout www-data
 
 # PHP Extras
 apt-get install -y php5-curl php5-gd php5-mysql
@@ -21,13 +20,8 @@ apt-get install -y php5-curl php5-gd php5-mysql
 # Fix PHP-FPM on Ubuntu 14.04.
 echo "reload signal USR2" > /etc/init/php5-fpm.override
 
-# Add a file to put custom tweaks into.
-cp $BASEDIR/conf/php/tweaks.ini /etc/php5/mods-available
-php5enmod tweaks
-service php5-fpm restart
-
-# Add vhost writing utiliy
-cp $BASEDIR/conf/bin/write_vhost /usr/bin
-
 echo 'alias www="cd /var/www"' >> ~/.bashrc
 source ~/.bashrc
+
+conf/apache2/configure_apache2
+conf/php/configure_php

@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# Add default core PHP config and a file to put custom tweaks into.
+cp $BASEDIR/conf/php/core.ini /etc/php5/mods-available
+cp $BASEDIR/conf/php/tweaks.ini /etc/php5/mods-available
+php5enmod core
+php5enmod tweaks
+service php5-fpm restart
