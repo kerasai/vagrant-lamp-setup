@@ -16,7 +16,7 @@ class DebugTest extends PHPUnit_Framework_TestCase {
   }
 
   public function testXhprof() {
-    $this->assertTrue(file_exists('/var/www/dashboard/xhprof'), 'xdebug configured');
+    $this->assertTrue(file_exists('/var/www/dashboard/xhprof'), 'xhprof web interface installed');
   }
 
 }
