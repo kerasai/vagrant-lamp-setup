@@ -1,0 +1,53 @@
+---
+php70: true
+php71: true
+php72: true
+
+php_default_version: 7.2
+php_default_version_clean: 72
+
+php_70_core:
+  - php7.0-cli
+  - php7.0-fpm
+
+php_71_core:
+  - php7.1-cli
+  - php7.1-fpm
+
+php_72_core:
+  - php7.2-cli
+  - php7.2-fpm
+
+php_70_packages:
+  - php7.0-curl
+  - php7.0-gd
+  - php7.0-mbstring
+  - php7.0-mysql
+  - php7.0-xml
+
+php_71_packages:
+  - php7.1-curl
+  - php7.1-gd
+  - php7.1-mbstring
+  - php7.1-mysql
+  - php7.1-xml
+
+php_72_packages:
+  - php7.2-curl
+  - php7.2-gd
+  - php7.2-mbstring
+  - php7.2-mysql
+  - php7.2-xml
+
+#php_modules_enabled:
+#  - core
+#  - tweaks
+#
+#php_core_config:
+#  memory_limit: 256M
+#  post_max_size: 10M
+#  upload_max_filesize: 10M
+#  variables_order: EGPCS
+#
+#php_tweaks_config: { }
+#

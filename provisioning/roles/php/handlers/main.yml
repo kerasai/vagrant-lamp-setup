@@ -1,0 +1,18 @@
+---
+- name: restart php70-fpm
+  become: true
+  service:
+    name: php7.0-fpm
+    state: restarted
+
+- name: restart php71-fpm
+  become: true
+  service:
+    name: php7.1-fpm
+    state: restarted
+
+- name: restart php72-fpm
+  become: true
+  service:
+    name: php7.2-fpm
+    state: restarted

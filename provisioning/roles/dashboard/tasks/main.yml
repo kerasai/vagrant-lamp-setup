@@ -1,0 +1,37 @@
+---
+- name: Prepare Dashboard
+  become: true
+  file:
+    path: /opt/dashboard
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: PHP Info
+  become: true
+  copy:
+    content: '<?php phpinfo();'
+    dest: /opt/dashboard/phpinfo.php
+
+- include: "phpmyadmin.yml"
+
+- include: "opcache-gui.yml"
+
+- name: Write Apache vhost
+  become: true
+  template:
+    src: vhost.conf.j2
+    dest: "/etc/apache2/sites-available/dashboard.conf"
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart apache
+
+- name: Enable Apache vhost
+  become: true
+  file:
+    src: "/etc/apache2/sites-available/dashboard.conf"
+    dest: "/etc/apache2/sites-enabled/dashboard.conf"
+    state: link
+  notify: restart apache

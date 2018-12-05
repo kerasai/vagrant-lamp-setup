@@ -1,0 +1,17 @@
+- hosts: all
+  gather_facts: false
+
+  tasks:
+    - name: install python 2
+      become: true
+      raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+      changed_when: false
+
+- hosts: lamp
+  roles:
+    - apache2
+    - apache2-fastcgi
+    - base
+    - dashboard
+    - mysql
+    - php

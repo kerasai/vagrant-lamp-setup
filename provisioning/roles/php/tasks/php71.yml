@@ -1,0 +1,27 @@
+---
+- name: Install PHP 7.1
+  become: true
+  package:
+    name: "{{ item }}"
+    state: latest
+  with_items: "{{ php_71_core }}"
+
+- name: Gather Initial PHP 7.1 Config
+  shell: 'cat /etc/php/7.1/fpm/conf.d/* | md5sum'
+  register: php_initial_configs
+  changed_when: false
+
+- name: Install additional PHP 7.1 packages
+  become: true
+  package:
+    name: "{{ item }}"
+    state: latest
+  with_items: "{{ php_71_packages }}"
+
+# TODO: install config files.
+
+- name: Check for PHP 7.1 config changes
+  shell: 'cat /etc/php/7.1/fpm/conf.d/* | md5sum'
+  register: php_config_current_configs
+  changed_when: php_config_current_configs.stdout != php_initial_configs.stdout
+  notify: restart php71-fpm

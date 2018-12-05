@@ -1,8 +1,0 @@
-#!/bin/bash
-
-if test -f /tmp/selenium.pid
-then
-  echo "Stopping Selenium..."
-  PID=`cat /tmp/selenium.pid`
-  kill -9 $PID && rm -f /tmp/selenium.pid
-fi

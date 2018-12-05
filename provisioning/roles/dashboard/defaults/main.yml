@@ -1,0 +1,6 @@
+---
+dashboard_vhost:
+  docroot: /opt/dashboard
+  port: 8081
+
+dashboard_phpmyadmin_version: 4.8.3

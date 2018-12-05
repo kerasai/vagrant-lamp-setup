@@ -1,0 +1,27 @@
+---
+- name: Install PHP 7.2
+  become: true
+  package:
+    name: "{{ item }}"
+    state: latest
+  with_items: "{{ php_72_core }}"
+
+- name: Gather Initial PHP 7.2 Config
+  shell: 'cat /etc/php/7.2/fpm/conf.d/* | md5sum'
+  register: php_initial_configs
+  changed_when: false
+
+- name: Install additional PHP 7.2 packages
+  become: true
+  package:
+    name: "{{ item }}"
+    state: latest
+  with_items: "{{ php_72_packages }}"
+
+# TODO: install config files.
+
+- name: Check for PHP 7.2 config changes
+  shell: 'cat /etc/php/7.2/fpm/conf.d/* | md5sum'
+  register: php_config_current_configs
+  changed_when: php_config_current_configs.stdout != php_initial_configs.stdout
+  notify: restart php72-fpm

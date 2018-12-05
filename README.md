@@ -1,3 +1,6 @@
+# New Ansible Based Setup
+Documentation coming soon.
+
 # vagrant-lamp-setup
 
 ## Introduction

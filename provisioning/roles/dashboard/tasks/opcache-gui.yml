@@ -1,0 +1,26 @@
+---
+- name: Check if OpCache GUI
+  stat:
+    path: /opt/opcache-gui
+  register: dashboard_opcahce_gui_bin
+
+- name: Create /opt/opcache-gui
+  become: true
+  file:
+    path: /opt/opcache-gui
+    state: directory
+  when: dashboard_opcahce_gui_bin.stat.exists == false
+
+- name: Install OpCache GUI
+  become: true
+  command: composer require amnuts/opcache-gui:2.*
+  args:
+    chdir: /opt/opcache-gui
+  when: dashboard_opcahce_gui_bin.stat.exists == false
+
+- name: Symlink OpCache GUI
+  become: true
+  file:
+    src: /opt/opcache-gui/vendor/amnuts/opcache-gui
+    dest: /opt/dashboard/opcache-gui
+    state: link

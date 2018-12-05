@@ -1,0 +1,27 @@
+---
+- name: Check PhpMyAdmin Installation
+  stat:
+    path: "/opt/phpmyadmin/phpMyAdmin-{{ dashboard_phpmyadmin_version }}-all-languages"
+  register: dashboard_phpmyadmin_installed
+
+- name: Create PhpMyAdmin Installation Directory
+  become: true
+  file:
+    path: /opt/phpmyadmin
+    state: directory
+  when: dashboard_phpmyadmin_installed.stat.exists == false
+
+- name: Download and Unzip PhpMyAdmin
+  become: true
+  unarchive:
+    src: "https://files.phpmyadmin.net/phpMyAdmin/{{ dashboard_phpmyadmin_version }}/phpMyAdmin-{{ dashboard_phpmyadmin_version }}-all-languages.zip"
+    dest: /opt/phpmyadmin
+    remote_src: yes
+  when: dashboard_phpmyadmin_installed.stat.exists == false
+
+- name: Install PhpMyAdmin
+  become: true
+  file:
+    src: "/opt/phpmyadmin/phpMyAdmin-{{ dashboard_phpmyadmin_version }}-all-languages"
+    dest: /opt/dashboard/phpmyadmin
+    state: link

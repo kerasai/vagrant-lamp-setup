@@ -1,0 +1,20 @@
+---
+- name: Set MySQL root password
+  become: true
+  shell: debconf-set-selections <<< 'mysql-server mysql-server/root_password password root'
+  args:
+    executable: /bin/bash
+  changed_when: false
+
+- name: Set MySQL root password - confirm
+  become: true
+  shell: debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password root'
+  args:
+    executable: /bin/bash
+  changed_when: false
+
+- name: Install MySQL Server
+  become: true
+  package:
+    name: mysql-server
+    state: latest

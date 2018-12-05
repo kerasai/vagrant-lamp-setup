@@ -1,0 +1,18 @@
+---
+- name: Configure Apache PHP-FPM
+  become: true
+  template:
+    src: php-fpm.conf.j2
+    dest: /etc/apache2/conf-available/php-fpm.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart apache
+
+- name: Enable Apache PHP-FPM Configuration
+  become: true
+  file:
+    src: /etc/apache2/conf-available/php-fpm.conf
+    dest: /etc/apache2/conf-enabled/php-fpm.conf
+    state: link
+  notify: restart apache

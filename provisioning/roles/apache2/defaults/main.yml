@@ -1,0 +1,33 @@
+---
+apache_packages:
+  - apache2
+  - libapache2-mod-fastcgi
+
+apache_ports:
+  - 80
+  - 8081
+
+apache_secure_ports:
+  - 443
+
+apache_mods_enabled:
+  - actions.conf
+  - actions.load
+  - fastcgi.conf
+  - fastcgi.load
+  - alias.conf
+  - alias.load
+  - rewrite.load
+
+apache_mods_disabled: []
+
+#apache_vhosts:
+#  - vhost_name: www
+#    server_name: lamp.local
+#    server_aliases: []
+#    port: 80
+#    docroot: /var/www/lamp
+#
+#apache_php_fpm_version: 7.1
+#
+#apache_php_fpm_version_clean: 7_1
