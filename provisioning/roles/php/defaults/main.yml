@@ -39,10 +39,18 @@ php_72_packages:
   - php7.2-mysql
   - php7.2-xml
 
-#php_modules_enabled:
-#  - core
-#  - tweaks
-#
+php70_modules_enabled:
+  - core
+  - tweaks
+
+php71_modules_enabled:
+  - core
+  - tweaks
+
+php72_modules_enabled:
+  - core
+  - tweaks
+
 #php_core_config:
 #  memory_limit: 256M
 #  post_max_size: 10M

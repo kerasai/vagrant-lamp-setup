@@ -18,17 +18,31 @@
     state: latest
   with_items: "{{ php_70_packages }}"
 
-# TODO: install config files.
-- name: Configure PHP 7.0 Core Config
+- name: Configure PHP 7.0 Core
   become: true
   template:
-    src: php-fpm.conf.j2
-    dest: /etc/apache2/conf-available/php7.1-fpm.conf
+    src: php70-core.ini.j2
+    dest: /etc/php/7.0/mods-available/core.ini
     owner: root
     group: root
     mode: 0644
-  notify: restart apache
+  notify: restart php70-fpm
 
+- name: Configure PHP 7.0 Tweaks
+  become: true
+  template:
+    src: php70-tweaks.ini.j2
+    dest: /etc/php/7.0/mods-available/tweaks.ini
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart php70-fpm
+
+- name: Enable PHP config
+  become: true
+  command: "phpenmod {{ item }}"
+  with_items: "{{ php70_modules_enabled }}"
+  changed_when: false
 
 - name: Check for PHP 7.0 config changes
   shell: 'cat /etc/php/7.0/fpm/conf.d/* | md5sum'

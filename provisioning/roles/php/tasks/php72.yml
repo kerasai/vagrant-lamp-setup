@@ -18,7 +18,31 @@
     state: latest
   with_items: "{{ php_72_packages }}"
 
-# TODO: install config files.
+- name: Configure PHP 7.2 Core
+  become: true
+  template:
+    src: php72-core.ini.j2
+    dest: /etc/php/7.2/mods-available/core.ini
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart php72-fpm
+
+- name: Configure PHP 7.2 Tweaks
+  become: true
+  template:
+    src: php72-tweaks.ini.j2
+    dest: /etc/php/7.2/mods-available/tweaks.ini
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart php72-fpm
+
+- name: Enable PHP config
+  become: true
+  command: "phpenmod {{ item }}"
+  with_items: "{{ php72_modules_enabled }}"
+  changed_when: false
 
 - name: Check for PHP 7.2 config changes
   shell: 'cat /etc/php/7.2/fpm/conf.d/* | md5sum'
