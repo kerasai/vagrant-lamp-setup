@@ -1,0 +1,4 @@
+---
+# mysql or mariadb.
+mysql_server: mysql
+mysql_client_only: false

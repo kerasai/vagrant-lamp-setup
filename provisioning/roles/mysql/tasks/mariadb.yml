@@ -1,0 +1,14 @@
+---
+
+- name: Install MariaDB Server
+  become: true
+  package:
+    name: mariadb-server
+    state: latest
+  when: mysql_client_only == false
+
+- name: Install MariaDB Client
+  become: true
+  package:
+    name: mariadb-client
+    state: latest
