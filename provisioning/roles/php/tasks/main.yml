@@ -14,7 +14,9 @@
 
 - name: Set Default PHP Version
   become: true
-  shell: "update-alternatives --set php /usr/bin/php{{ php_default_version }}"
+  alternatives:
+    name: php
+    path: /usr/bin/php{{ php_default_version }}
 
 #- name: Gather Initial PHP Config
 #  shell: 'cat /etc/php/7.1/fpm/conf.d/* | md5sum'

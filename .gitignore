@@ -2,3 +2,4 @@
 *.box
 .idea
 *.log
+playbook.retry
