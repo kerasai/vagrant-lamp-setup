@@ -1,0 +1,33 @@
+- name: Check Nodejs {{ item }} Installation
+  stat:
+    path: "/opt/node/node-v{{ item }}-linux-x64/bin/node"
+  register: nodejs_installed
+
+- name: Download and Unzip Nodejs
+  become: true
+  unarchive:
+    src: "https://nodejs.org/dist/v{{ item }}/node-v{{ item }}-linux-x64.tar.xz"
+    dest: /opt/node
+    remote_src: yes
+  when: nodejs_installed.stat.exists == false
+
+- name: Install Nodejs
+  become: true
+  file:
+    src: "/opt/node/node-v{{ item }}-linux-x64/bin/node"
+    dest: /usr/local/bin/node-{{ item }}
+    state: link
+
+- name: Install NPM
+  become: true
+  file:
+    src: "/opt/node/node-v{{ item }}-linux-x64/bin/npm"
+    dest: /usr/local/bin/npm-{{ item }}
+    state: link
+
+- name: Install NPX
+  become: true
+  file:
+    src: "/opt/node/node-v{{ item }}-linux-x64/bin/npx"
+    dest: /usr/local/bin/npx-{{ item }}
+    state: link

@@ -1,0 +1,38 @@
+---
+
+#!/usr/bin/env bash
+
+#set -e
+#
+#mkdir -p /opt
+#cd /opt
+#curl -O https://nodejs.org/dist/v8.12.0/node-v8.12.0-linux-x64.tar.xz
+#tar xf node-v8.12.0-linux-x64.tar.xz
+#rm node-v8.12.0-linux-x64.tar.xz
+#ln -s /opt/node-v8.12.0-linux-x64/bin/node /usr/local/bin/node
+#ln -s /opt/node-v8.12.0-linux-x64/bin/npm /usr/local/bin/npm
+#ln -s /opt/node-v8.12.0-linux-x64/bin/npx /usr/local/bin/npx
+
+- include: install-nodejs-version.yml
+  with_items: "{{ node_versions }}"
+
+- name: Set Default Nodejs Version
+  become: true
+  alternatives:
+    name: node
+    link: /usr/local/bin/node
+    path: /usr/local/bin/node-{{ node_default_version }}
+
+- name: Set Default NPM Version
+  become: true
+  alternatives:
+    name: npm
+    link: /usr/local/bin/npm
+    path: /usr/local/bin/npm-{{ node_default_version }}
+
+- name: Set Default NPX Version
+  become: true
+  alternatives:
+    name: npx
+    link: /usr/local/bin/npx
+    path: /usr/local/bin/npx-{{ node_default_version }}
