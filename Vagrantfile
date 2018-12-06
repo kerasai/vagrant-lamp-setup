@@ -20,7 +20,7 @@ Vagrant.configure(2) do |config|
     ansible.playbook = "provisioning/playbook.yml"
     ansible.groups = {
       "lamp" => ["default"],
-      #"develop" => ["default"],
+      "develop_drupal" => ["default"],
     }
   end
 

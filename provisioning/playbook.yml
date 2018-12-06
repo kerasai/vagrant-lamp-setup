@@ -15,3 +15,11 @@
     - dashboard
     - mysql
     - php
+
+- hosts: develop_php
+  roles:
+    - develop-php
+
+- hosts: develop_drupal
+  roles:
+    - develop-drupal
