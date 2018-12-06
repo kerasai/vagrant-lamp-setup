@@ -10,7 +10,7 @@
 - hosts: lamp
   roles:
     - apache2
-    - apache2-fastcgi
+    - apache2-php-fastcgi
     - base
     - dashboard
     - mysql
