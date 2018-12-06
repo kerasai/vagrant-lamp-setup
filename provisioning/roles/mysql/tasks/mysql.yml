@@ -1,15 +1,4 @@
 ---
-- name: Set MySQL root password
-  become: true
-  debconf:
-    name: mysql-server
-    question: "{{ item }}"
-    vtype: password
-    value: "{{ 'root' | quote }}"
-  with_items:
-    - mysql-server/root_password
-    - mysql-server/root_password_again
-
 - name: Install MySQL Server
   become: true
   package:
