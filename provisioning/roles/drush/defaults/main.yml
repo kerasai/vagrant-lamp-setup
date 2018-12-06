@@ -1,0 +1,10 @@
+---
+
+# Only up through through Drush 8, Drush 9 should be installed via the project's
+# composer management.
+drush_versions:
+  - 8.1.18
+
+drush_default_version: 8.1.18
+
+drush_launcher_version: 0.6.0

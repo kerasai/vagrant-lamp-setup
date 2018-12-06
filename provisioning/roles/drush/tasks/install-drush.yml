@@ -1,0 +1,25 @@
+---
+
+- name: Check Drush {{ item }} Installation
+  stat:
+    path: "/opt/drush/{{ item }}/drush.phar"
+  register: drush_installed
+
+- name: Create Drush {{ item }} Installation Directory
+  become: true
+  file:
+    path: "/opt/drush/{{ item }}"
+    state: directory
+  when: drush_installed.stat.exists == false
+
+- name: Download Drush {{ item }} Phar
+  become: true
+  get_url:
+    url: "https://github.com/drush-ops/drush/releases/download/{{ item }}/drush.phar"
+    dest: "/opt/drush/{{ item }}/drush.phar"
+
+- name: Make Drush {{ item }} Executable
+  become: true
+  file:
+    path: "/opt/drush/{{ item }}/drush.phar"
+    mode: 0755

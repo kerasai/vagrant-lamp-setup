@@ -1,0 +1,34 @@
+---
+
+# Global drush installation will be decommissioned as drush 8 usage ends, see
+# http://docs.drush.org/en/master/install.
+- include: install-drush.yml
+  with_items: "{{ drush_versions }}"
+
+- name: Set Default Drush Version
+  become: true
+  alternatives:
+    name: drush
+    link: /opt/drush/drush
+    path: "/opt/drush/{{ drush_default_version }}/drush.phar"
+
+- name: Install Drush Launcher
+  become: true
+  get_url:
+    url: "https://github.com/drush-ops/drush-launcher/releases/download/{{ drush_launcher_version }}/drush.phar"
+    dest: /usr/local/bin/drush
+
+- name: Make Drush Launcher Executable
+  become: true
+  file:
+    path: /usr/local/bin/drush
+    mode: 0755
+
+- name: Set Drush Launcher Fallback
+  become: true
+  lineinfile:
+    path: /etc/environment
+    regexp: '^DRUSH_LAUNCHER_FALLBACK='
+    line: 'DRUSH_LAUNCHER_FALLBACK=/opt/drush/drush'
+
+# TODO: initialize drush config files?
