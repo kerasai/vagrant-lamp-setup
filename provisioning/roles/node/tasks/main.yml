@@ -1,18 +1,5 @@
 ---
 
-#!/usr/bin/env bash
-
-#set -e
-#
-#mkdir -p /opt
-#cd /opt
-#curl -O https://nodejs.org/dist/v8.12.0/node-v8.12.0-linux-x64.tar.xz
-#tar xf node-v8.12.0-linux-x64.tar.xz
-#rm node-v8.12.0-linux-x64.tar.xz
-#ln -s /opt/node-v8.12.0-linux-x64/bin/node /usr/local/bin/node
-#ln -s /opt/node-v8.12.0-linux-x64/bin/npm /usr/local/bin/npm
-#ln -s /opt/node-v8.12.0-linux-x64/bin/npx /usr/local/bin/npx
-
 - include: install-nodejs-version.yml
   with_items: "{{ node_versions }}"
 
