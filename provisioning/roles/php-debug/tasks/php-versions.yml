@@ -1,0 +1,26 @@
+---
+
+- name: Gather Initial PHP {{ php_loop_version }} Config
+  shell: 'cat /etc/php/{{ php_loop_version }}/fpm/conf.d/* | md5sum'
+  register: php_initial_configs
+  changed_when: false
+
+- name: Set {{ php_loop_version }} Configuration
+  become: true
+  template:
+    src: debug.ini.j2
+    dest: /etc/php/{{ php_loop_version }}/mods-available/debug.ini
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Enable PHP config
+  become: true
+  command: "phpenmod -v {{ php_loop_version }} debug"
+  changed_when: false
+
+- name: Check for PHP {{ php_loop_version }} config changes
+  shell: 'cat /etc/php/{{ php_loop_version }}/fpm/conf.d/* | md5sum'
+  register: php_config_current_configs
+  changed_when: php_config_current_configs.stdout != php_initial_configs.stdout
+  notify: restart php{{ php_loop_version_clean }}-fpm
