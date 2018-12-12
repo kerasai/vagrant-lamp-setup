@@ -7,10 +7,10 @@
   when: php70 == true
 
 - include: "php71.yml"
-  when: php70 == true
+  when: php71 == true
 
 - include: "php72.yml"
-  when: php70 == true
+  when: php72 == true
 
 - name: Set Default PHP Version
   become: true
