@@ -1,0 +1,36 @@
+---
+- name: Check if Coder is installed
+  stat:
+    path: /opt/coder
+  register: coder_bin
+
+- name: Create /opt/coder
+  become: true
+  file:
+    path: /opt/coder
+    state: directory
+  when: coder_bin.stat.exists == false
+
+- name: Install Coder
+  become: true
+  command: composer require drupal/coder
+  args:
+    chdir: /opt/coder
+  when: coder_bin.stat.exists == false
+
+- name: Symlink PHPCS
+  become: true
+  file:
+    src: /opt/coder/vendor/bin/phpcs
+    dest: /usr/local/bin/phpcs
+    state: link
+
+- name: Configure PHPCS ruleset paths
+  become: true
+  command: phpcs --config-set installed_paths /opt/coder/vendor/drupal/coder/coder_sniffer
+  when: coder_bin.stat.exists == false
+
+- name: Configure PHPCS default ruleset
+  become: true
+  command: phpcs --config-set default_standard Drupal
+  when: coder_bin.stat.exists == false
