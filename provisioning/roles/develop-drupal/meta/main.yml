@@ -2,3 +2,5 @@
 dependencies:
   - { role: develop-php }
   - { role: drush }
+  - { role: coder }
+  - { role: terminus }
