@@ -4,6 +4,11 @@
 # This Vagrantfile is for creating the lamp.box
 # vagrant box file.
 
+# Required plugins:
+# - vagrant plugin install vagrant-auto_network
+# - vagrant plugin install vagrant-hostmanager
+# - vagrant plugin install vagrant-vbguest
+
 Vagrant.configure(2) do |config|
   config.vm.box = "ubuntu/xenial64"
 
