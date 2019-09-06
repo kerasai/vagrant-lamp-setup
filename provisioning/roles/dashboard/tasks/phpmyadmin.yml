@@ -25,3 +25,6 @@
     src: "/opt/phpmyadmin/phpMyAdmin-{{ dashboard_phpmyadmin_version }}-all-languages"
     dest: /opt/dashboard/phpmyadmin
     state: link
+
+# The configuration file now needs a secret passphrase (blowfish_secret).
+# The $cfg['TempDir'] (./tmp/) is not accessible. phpMyAdmin is not able to cache templates and will be slow because of this.
