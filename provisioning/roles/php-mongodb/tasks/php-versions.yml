@@ -1,0 +1,6 @@
+---
+
+- name: Enable PHP config
+  become: true
+  command: "phpenmod -v {{ php_loop_version }} mongodb"
+  changed_when: false

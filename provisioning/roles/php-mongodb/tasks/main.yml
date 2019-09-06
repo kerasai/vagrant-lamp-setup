@@ -1,0 +1,25 @@
+---
+
+- name: Install MongoDB PHP extension
+  become: true
+  package:
+    name: php-mongodb
+    state: latest
+
+- include: "php-versions.yml"
+  vars:
+    php_loop_version: 7.0
+    php_loop_version_clean: 70
+  when: php70 == true
+
+- include: "php-versions.yml"
+  vars:
+    php_loop_version: 7.1
+    php_loop_version_clean: 71
+  when: php71 == true
+
+- include: "php-versions.yml"
+  vars:
+    php_loop_version: 7.2
+    php_loop_version_clean: 72
+  when: php72 == true
