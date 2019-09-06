@@ -1,18 +1,25 @@
 - name: Check Terminus Installation
   stat:
-    path: "/usr/local/bin/terminus"
+    path: "/opt/terminus"
   register: terminus_installed
+
+- name: Create Terminus Directory
+  become: true
+  file:
+    path: /opt/terminus
+    state: directory
+  when: terminus_installed.stat.exists == false
 
 - name: Download Terminus Installer
   become: true
   get_url:
     url: "https://raw.githubusercontent.com/pantheon-systems/terminus-installer/master/builds/installer.phar"
-    dest: "/tmp/terminus-installer.phar"
+    dest: "/opt/terminus/installer.phar"
   when: terminus_installed.stat.exists == false
 
 - name: Install Terminus
   become: true
-  shell: "php terminus-installer.phar install"
+  shell: "php installer.phar install"
   args:
-   chdir: /tmp
+   chdir: /opt/terminus
   when: terminus_installed.stat.exists == false
