@@ -13,7 +13,12 @@ Vagrant.configure(2) do |config|
   config.hostmanager.enabled = true
   config.hostmanager.manage_host = true
   config.hostmanager.manage_guest = true
+  config.hostmanager.aliases = %w(lamp.local)
 
+  # Sites directory.
+  config.vm.synced_folder "sites", "/sites", type: :nfs, create: true
+
+  # General vagrant share.
   config.vm.synced_folder "./vagrant", "/vagrant", create: true
 
   config.vm.provision "ansible" do |ansible|
