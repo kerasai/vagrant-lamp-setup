@@ -13,8 +13,9 @@
     update_cache: yes
     allow_unauthenticated: yes
 
-- name: Make MongoDB is running
+- name: Enable MongoDB service
   become: true
   systemd:
+    enabled: yes
     state: started
     name: mongod
