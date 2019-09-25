@@ -1,6 +1,7 @@
 ---
-# Do not include the leading 'v' in the version numbers.
+# Include the leading 'v' in the version numbers.
 node_versions:
-  - 10.14.1
+  - v10.16.3
 
-node_default_version: 10.14.1
+# Must be included in node_versions.
+node_default_version: v10.16.1

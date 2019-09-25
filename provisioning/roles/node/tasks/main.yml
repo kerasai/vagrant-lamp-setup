@@ -1,25 +1,31 @@
 ---
 
-- include: install-nodejs-version.yml
+- name: Install NVM
+  shell: >
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
+  args:
+    creates: "{{ ansible_env.HOME }}/.nvm/nvm.sh"
+
+- name: Install Node Versions
+  shell: >
+    . {{ ansible_env.HOME }}/.nvm/nvm.sh && nvm install {{ item }}
+  args:
+    executable: /bin/bash
+    chdir: "{{ ansible_env.HOME }}"
+    creates: "{{ ansible_env.HOME }}/.nvm/versions/node/{{ item }}"
   with_items: "{{ node_versions }}"
 
-- name: Set Default Nodejs Version
-  become: true
-  alternatives:
-    name: node
-    link: /usr/local/bin/node
-    path: /usr/local/bin/node-{{ node_default_version }}
+- name: Check Default Node Version
+  shell: >
+    . {{ ansible_env.HOME }}/.nvm/nvm.sh && nvm alias default
+  args:
+    executable: /bin/bash
+  register: nvm_alias_default
+  changed_when: false
 
-- name: Set Default NPM Version
-  become: true
-  alternatives:
-    name: npm
-    link: /usr/local/bin/npm
-    path: /usr/local/bin/npm-{{ node_default_version }}
-
-- name: Set Default NPX Version
-  become: true
-  alternatives:
-    name: npx
-    link: /usr/local/bin/npx
-    path: /usr/local/bin/npx-{{ node_default_version }}
+- name: Set Default Node Version to {{ node_default_version }}
+  shell: >
+   . {{ ansible_env.HOME }}/.nvm/nvm.sh && nvm alias default {{ node_default_version }}
+  args:
+    executable: /bin/bash
+  when: 'node_default_version not in nvm_alias_default.stdout'
