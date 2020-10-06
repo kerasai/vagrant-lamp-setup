@@ -1,0 +1,51 @@
+---
+- name: Install PHP 7.4
+  become: true
+  package:
+    name: "{{ item }}"
+    state: latest
+  with_items: "{{ php_74_core }}"
+
+- name: Gather Initial PHP 7.4 Config
+  shell: 'cat /etc/php/7.4/fpm/conf.d/* | md5sum'
+  register: php_initial_configs
+  changed_when: false
+
+- name: Install additional PHP 7.4 packages
+  become: true
+  package:
+    name: "{{ item }}"
+    state: latest
+  with_items: "{{ php_74_packages }}"
+
+- name: Configure PHP 7.4 Core
+  become: true
+  template:
+    src: php74-core.ini.j2
+    dest: /etc/php/7.4/mods-available/core.ini
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart php74-fpm
+
+- name: Configure PHP 7.4 Tweaks
+  become: true
+  template:
+    src: php74-tweaks.ini.j2
+    dest: /etc/php/7.4/mods-available/tweaks.ini
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart php74-fpm
+
+- name: Enable PHP config
+  become: true
+  command: "phpenmod -v 7.4 {{ item }}"
+  with_items: "{{ php74_modules_enabled }}"
+  changed_when: false
+
+- name: Check for PHP 7.4 config changes
+  shell: 'cat /etc/php/7.4/fpm/conf.d/* | md5sum'
+  register: php_config_current_configs
+  changed_when: php_config_current_configs.stdout != php_initial_configs.stdout
+  notify: restart php74-fpm

@@ -1,0 +1,51 @@
+---
+- name: Install PHP 7.3
+  become: true
+  package:
+    name: "{{ item }}"
+    state: latest
+  with_items: "{{ php_73_core }}"
+
+- name: Gather Initial PHP 7.3 Config
+  shell: 'cat /etc/php/7.3/fpm/conf.d/* | md5sum'
+  register: php_initial_configs
+  changed_when: false
+
+- name: Install additional PHP 7.3 packages
+  become: true
+  package:
+    name: "{{ item }}"
+    state: latest
+  with_items: "{{ php_73_packages }}"
+
+- name: Configure PHP 7.3 Core
+  become: true
+  template:
+    src: php73-core.ini.j2
+    dest: /etc/php/7.3/mods-available/core.ini
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart php73-fpm
+
+- name: Configure PHP 7.3 Tweaks
+  become: true
+  template:
+    src: php73-tweaks.ini.j2
+    dest: /etc/php/7.3/mods-available/tweaks.ini
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart php73-fpm
+
+- name: Enable PHP config
+  become: true
+  command: "phpenmod -v 7.3 {{ item }}"
+  with_items: "{{ php73_modules_enabled }}"
+  changed_when: false
+
+- name: Check for PHP 7.3 config changes
+  shell: 'cat /etc/php/7.3/fpm/conf.d/* | md5sum'
+  register: php_config_current_configs
+  changed_when: php_config_current_configs.stdout != php_initial_configs.stdout
+  notify: restart php73-fpm

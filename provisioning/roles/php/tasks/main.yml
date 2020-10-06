@@ -12,6 +12,12 @@
 - include: "php72.yml"
   when: php72 == true
 
+- include: "php73.yml"
+  when: php73 == true
+
+- include: "php74.yml"
+  when: php74 == true
+
 - name: Set Default PHP Version
   become: true
   alternatives:

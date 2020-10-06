@@ -1,10 +1,12 @@
 ---
 php70: false
 php71: false
-php72: true
+php72: false
+php73: true
+php74: false
 
-php_default_version: 7.2
-php_default_version_clean: 72
+php_default_version: 7.3
+php_default_version_clean: 73
 
 php_70_core:
   - php7.0-cli
@@ -48,5 +50,35 @@ php_72_packages:
   - php7.2-xml
 
 php72_modules_enabled:
+  - core
+  - tweaks
+
+php_73_core:
+  - php7.3-cli
+  - php7.3-fpm
+
+php_73_packages:
+  - php7.3-curl
+  - php7.3-gd
+  - php7.3-mbstring
+  - php7.3-mysql
+  - php7.3-xml
+
+php73_modules_enabled:
+  - core
+  - tweaks
+
+php_74_core:
+  - php7.4-cli
+  - php7.4-fpm
+
+php_74_packages:
+  - php7.4-curl
+  - php7.4-gd
+  - php7.4-mbstring
+  - php7.4-mysql
+  - php7.4-xml
+
+php74_modules_enabled:
   - core
   - tweaks
