@@ -30,3 +30,10 @@
   register: composer_update
   changed_when: "'Updating to version' in composer_update.stdout"
   when: composer_keep_updated
+
+- name: Set COMPOSER_MEMORY_LIMIT environment variable
+  become: true
+  lineinfile:
+    path: /etc/environment
+    regexp: '^COMPOSER_MEMORY_LIMIT='
+    line: 'COMPOSER_MEMORY_LIMIT=-1'
