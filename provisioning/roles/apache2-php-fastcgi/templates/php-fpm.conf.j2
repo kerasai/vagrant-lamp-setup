@@ -19,6 +19,18 @@
     FastCgiExternalServer /usr/lib/cgi-bin/php72-fcgi -socket /var/run/php/php7.2-fpm.sock -idle-timeout 250 -pass-header Authorization
   {% endif %}
 
+  {% if php73 == true %}
+    Action php73-fcgi /php73-fcgi
+    Alias /php73-fcgi /usr/lib/cgi-bin/php73-fcgi
+    FastCgiExternalServer /usr/lib/cgi-bin/php73-fcgi -socket /var/run/php/php7.3-fpm.sock -idle-timeout 250 -pass-header Authorization
+  {% endif %}
+
+  {% if php74 == true %}
+    Action php74-fcgi /php74-fcgi
+    Alias /php74-fcgi /usr/lib/cgi-bin/php74-fcgi
+    FastCgiExternalServer /usr/lib/cgi-bin/php74-fcgi -socket /var/run/php/php7.4-fpm.sock -idle-timeout 250 -pass-header Authorization
+  {% endif %}
+
   <Directory /usr/lib/cgi-bin>
     Require all granted
   </Directory>

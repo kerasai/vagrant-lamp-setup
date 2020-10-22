@@ -22,3 +22,15 @@
     php_loop_version: 7.2
     php_loop_version_clean: 72
   when: php72 == true
+
+- include: "php-versions.yml"
+  vars:
+    php_loop_version: 7.3
+    php_loop_version_clean: 73
+  when: php73 == true
+
+- include: "php-versions.yml"
+  vars:
+    php_loop_version: 7.4
+    php_loop_version_clean: 74
+  when: php74 == true
